@@ -1,24 +1,20 @@
-import Link from "next/link";
+import MovieList from "@/features/movies/components/MovieList";
 import { getMovies } from "@/features/movies/services/movieService";
+import { getGenres } from "@/features/genres/services/genreService";
 
 // Siden venter på filmene fra backenden, før den vises.
 // Kræves, fordi cacheComponents er slået til i next.config.ts.
 export const instant = false;
 
-export default async function MoviesPage() {
-  const movies = await getMovies();
+export default async function MoviesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ genre?: string }>;
+}) {
+  // ?genre=Drama i adressen bestemmer, hvilken genre der er valgt.
+  const { genre } = await searchParams;
+  // Film og genrer hentes samtidig.
+  const [movies, genres] = await Promise.all([getMovies(), getGenres()]);
 
-  return (
-    <ul className="grid grid-cols-4 gap-8">
-      {movies.map((movie) => (
-        <li key={movie.movie_pk}>
-          <Link href={`/movies/${movie.movie_pk}`}>
-            <img src={movie.movie_poster_url} alt={movie.movie_title} />
-            <h2>{movie.movie_title}</h2>
-            <p>{movie.movie_release_year}</p>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
+  return <MovieList movies={movies} genres={genres} selectedGenre={genre} />;
 }

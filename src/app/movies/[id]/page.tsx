@@ -1,3 +1,4 @@
+import MovieSingle from "@/features/movies/components/MovieSingle";
 import { getMovies } from "@/features/movies/services/movieService";
 
 // Siden venter på filmene fra backenden, før den vises.
@@ -17,12 +18,5 @@ export default async function MoviePage({
     return <p>Filmen findes ikke</p>;
   }
 
-  return (
-    <article>
-      <img src={movie.movie_poster_url} alt={movie.movie_title} />
-      <h1>{movie.movie_title}</h1>
-      <p>{movie.movie_release_year}</p>
-      <p>{movie.movie_description}</p>
-    </article>
-  );
+  return <MovieSingle movie={movie} />;
 }
