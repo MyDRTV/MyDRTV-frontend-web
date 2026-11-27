@@ -1,7 +1,16 @@
-import type { Movie } from "@/features/movies/types/movie";
+import { getMovie } from "@/features/movies/services/movieService";
 
-// Viser én film. Siden finder filmen og sender den med som props.
-export default function MovieSingle({ movie }: { movie: Movie }) {
+// Viser én film.
+export default async function MovieSingle({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const movie = await getMovie(id);
+
+  if (!movie) return <p>Filmen findes ikke</p>;
+
   return (
     <article className="flex flex-row gap-12">
       <img

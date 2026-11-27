@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import Header from "@/components/navigation/Header";
+import { Suspense } from "react";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,10 +17,14 @@ export default function RootLayout({
     <html lang="da">
       <head></head>
       <body className="px-50 pt-8">
-        <header>
+        {/* Header læser adressen (usePathname), så den ligger i Suspense (cacheComponents) for at de andre elementer kan vises først */}
+        <Suspense>
           <Header />
-        </header>
-        <main className="flex flex-col mb-20">{children}</main>
+        </Suspense>
+        {/* Siderne henter data. Suspense lader resten af siden vises imens (kræves af cacheComponents). */}
+        <main className="flex flex-col mb-20">
+          <Suspense>{children}</Suspense>
+        </main>
       </body>
     </html>
   );

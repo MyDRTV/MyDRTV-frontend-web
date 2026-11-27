@@ -1,4 +1,7 @@
-import type { Genre } from "@/features/genres/types/genre";
+export type Genre = {
+  genre_pk: string;
+  genre_name: string;
+};
 
 export type Movie = {
   movie_pk: string;

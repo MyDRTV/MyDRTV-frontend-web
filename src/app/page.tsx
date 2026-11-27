@@ -1,7 +1,5 @@
-import Login from "@/features/auth/components/Login";
+import Home from "@/features/home/components/Home";
 
-const Home = () => {
-  return <Login />;
-};
-
-export default Home;
+export default function DashboardPage() {
+  return <Home />;
+}
